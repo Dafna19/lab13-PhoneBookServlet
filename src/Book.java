@@ -38,6 +38,7 @@ public class Book {
     public void add(String name, String phone){
         if(book.containsKey(name)){//добавляем к существующему
             book.get(name).add(phone);
+            //А если уже есть такой номер?
         }
         else {
             LinkedList<String> list = new LinkedList<>();

@@ -23,11 +23,6 @@ public class PhoneBookServlet extends HttpServlet {
 
     private Book book = new Book();
 
-    //исполняется 1 раз при запуске
-   /* public void init() throws ServletException {
-        book = new Book();
-    }*/
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
