@@ -13,6 +13,10 @@ import java.io.*;
 * где с помощью элементов <input type="text" name="username" />
 * в форме вводятся необходимые данные.
 * Для отправки данных сервлету есть кнопка submit. *
+*
+* чтобы нормально открывался AddName.html,
+* он должен лежать в папке web
+*
 * */
 
 public class PhoneBookServlet extends HttpServlet {
@@ -28,34 +32,29 @@ public class PhoneBookServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         String uri = request.getRequestURI();
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
 
-        if(uri.equals("/servlet/PhoneBook/add")) {
-            book.add(request.getParameter("name"), request.getParameter("phone"));
+        out.println("<html><head>");
+        out.println("<title>PhoneBook</title>");
+        out.println("</head><body>");
+        out.println("<a href=\"http://localhost:8880/AddName.html\">Add new</a>");
+
+        if (uri.equals("/servlet/PhoneBook/add")) {
+            String name = request.getParameter("name");
+                book.add(name, request.getParameter("phone"));
         }
+
        /* else if(uri.equals("/servlet/PhoneBook/save")){
             //сохранить в файл - не сохраняет
             out.println("<p>" + book.save() + "</p>");
         }*/
 
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>PhoneBook</title>");
-        out.println("</head>");
-        out.println("<body>");
-       // out.println("uri: " + uri);
-      //  out.println("<form method=\"GET\" action=\"/servlet/PhoneBook/save\"><input type=\"submit\" value=\"save\"></form>");
-        out.println("<form method=\"get\" action=\"/servlet/PhoneBook/add\">");
-        out.println("name: <input type=\"text\" name=\"name\">");
-        out.println("phone number: <input type=\"text\" name=\"phone\">");
-        out.println(" <input type=\"submit\" value=\"add to list\">");
-        out.println("</form>");
+        // out.println("uri: " + uri);
+        //  out.println("<form method=\"GET\" action=\"/servlet/PhoneBook/save\"><input type=\"submit\" value=\"save\"></form>");
 
         out.println(book.getBook());
-        out.println("</body>");
-        out.println("</html>");
+        out.println("</body></html>");
     }
 
 

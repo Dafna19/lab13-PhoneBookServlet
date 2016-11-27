@@ -1,11 +1,13 @@
-import com.sun.xml.internal.ws.server.ServerRtException;
-
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * File file = new File(getServletContext().getRealPath("/abc.txt"));
+ *
+ * для теха:
+ * miktex
+ * связка miktex + texnic center
  */
 public class Book {
     private ConcurrentHashMap<String, LinkedList<String>> book = new ConcurrentHashMap<>();//имя, номера
@@ -26,7 +28,6 @@ public class Book {
                 //строка кончилась
                 book.put(name, phones);
             }
-            System.out.println("can read file");
         }catch (FileNotFoundException e){
             System.out.println("file not found");
         }catch (NoSuchElementException n){
@@ -47,9 +48,9 @@ public class Book {
 
     public String save() {
         try{
-        FileWriter outputfile = new FileWriter("saved.txt");
-        outputfile.write(getBook());
-        outputfile.flush();
+            FileWriter outputfile = new FileWriter("saved.txt");
+            outputfile.write(getBook());
+            outputfile.flush();
         }catch (IOException e){
             return "can't write to file";
         }
@@ -65,7 +66,7 @@ public class Book {
         return str.toString();
     }
 
-    public String getPhones(LinkedList<String> list) {
+    private String getPhones(LinkedList<String> list) {
         StringBuilder str = new StringBuilder();
         ListIterator<String> it = list.listIterator();
         while (it.hasNext()) {
