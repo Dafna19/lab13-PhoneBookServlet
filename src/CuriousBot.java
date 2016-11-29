@@ -13,19 +13,38 @@ public class CuriousBot {
     public static void main(String[] args) {
         CuriousBot bot = new CuriousBot();
 
-        try {
-            bot.readBook();
-        } catch (IOException e) {
-            System.out.println("can't connect to PhoneBook");
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            CuriousBot bot1 = new CuriousBot();
+            while (true){
+                try {
+                    bot1.readBook();
+                } catch (IOException e) {
+                    System.out.println("can't connect to PhoneBook");
+                }
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
-        try {
-            bot.addToBook();
-        } catch (IOException e) {
-            System.out.println("can't add to PhoneBook");
-            e.printStackTrace();
+        new Thread(()->{
+            CuriousBot bot2 = new CuriousBot();
+            while(true){
+                try {
+                    bot2.addToBook();
+                } catch (IOException e) {
+                    System.out.println("can't add to PhoneBook");
+                }
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        ).start();
     }
 
     //запрашивает записную книжку
@@ -46,7 +65,7 @@ public class CuriousBot {
             name = "name" + rand;
         else
             name = "user" + rand;
-        //System.out.println(name);
+        System.out.println("adding " + name + " with (333)818-55" + rand + num);//просто проверка
 
         URL url = new URL("http://localhost:8880/servlet/PhoneBook/add?name=" + name + "&phone=(333)818-55" + rand + num);
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
