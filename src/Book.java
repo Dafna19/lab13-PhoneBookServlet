@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * File file = new File(getServletContext().getRealPath("/abc.txt"));
- *
+ * <p>
  * для теха:
  * miktex
  * связка miktex + texnic center
@@ -28,19 +28,18 @@ public class Book {
                 //строка кончилась
                 book.put(name, phones);
             }
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("file not found");
-        }catch (NoSuchElementException n){
+        } catch (NoSuchElementException n) {
             System.out.println("no file");
         }
     }
 
-    public void add(String name, String phone){
-        if(book.containsKey(name)){//добавляем к существующему
-            book.get(name).add(phone);
-            //А если уже есть такой номер?
-        }
-        else {
+    public void add(String name, String phone) {
+        if (book.containsKey(name)) {//добавляем к существующему
+            if (!book.get(name).contains(phone))
+                book.get(name).add(phone);
+        } else {
             LinkedList<String> list = new LinkedList<>();
             list.add(phone);
             book.put(name, list);
@@ -48,20 +47,20 @@ public class Book {
     }
 
     public String save() {
-        try{
+        try {
             FileWriter outputfile = new FileWriter("saved.txt");
             outputfile.write(getBook());
             outputfile.flush();
-        }catch (IOException e){
+        } catch (IOException e) {
             return "can't write to file";
         }
         return "saved";
     }
 
     //записи из книги
-    public String getBook(){
+    public String getBook() {
         StringBuilder str = new StringBuilder();
-        for(Map.Entry<String, LinkedList<String>> entry : book.entrySet()){
+        for (Map.Entry<String, LinkedList<String>> entry : book.entrySet()) {
             str.append("<p>" + entry.getKey() + " " + getPhones(entry.getValue()) + "</p>");
         }
         return str.toString();
