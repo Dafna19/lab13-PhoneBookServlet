@@ -28,10 +28,13 @@ public class Book {
                 //строка кончилась
                 book.put(name, phones);
             }
+            inputFile.close();
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
         } catch (NoSuchElementException n) {
             System.out.println("no file");
+        } catch (IOException e) {
+            System.out.println("error while closing the file");
         }
     }
 
@@ -48,32 +51,41 @@ public class Book {
 
     public String save() {
         try {
-            FileWriter outputfile = new FileWriter("saved.txt");
-            outputfile.write(getBook());
-            outputfile.flush();
+            FileWriter outputfile = new FileWriter("C:\\Users\\Наташа\\Dropbox\\Учёба\\прога\\ТехПрог\\13\\out\\artifacts\\13_war_exploded\\WEB-INF\\classes\\phones.txt");
+            for (Map.Entry<String, LinkedList<String>> entry : book.entrySet()) {
+                outputfile.write( entry.getKey() + " " + getPhones(entry.getValue(), false) + "\n");
+                outputfile.flush();
+            }
+            outputfile.close();
         } catch (IOException e) {
             return "can't write to file";
         }
         return "saved";
     }
 
+    public void remove(String name){
+        book.remove(name);
+    }
+
     //записи из книги
     public String getBook() {
         StringBuilder str = new StringBuilder();
         for (Map.Entry<String, LinkedList<String>> entry : book.entrySet()) {
-            str.append("<p>" + entry.getKey() + " " + getPhones(entry.getValue()) + "</p>");
+            str.append("<p>" + entry.getKey() + " " + getPhones(entry.getValue(), true) + "</p>");
         }
         return str.toString();
     }
 
-    private String getPhones(LinkedList<String> list) {
+    private String getPhones(LinkedList<String> list, boolean comma) {
         StringBuilder str = new StringBuilder();
         ListIterator<String> it = list.listIterator();
         while (it.hasNext()) {
             str.append(it.next());
             //у последнего без запятой
-            if (it.hasNext())
+            if (it.hasNext() && comma)
                 str.append(", ");
+            else if (it.hasNext() && !comma)
+                str.append(" ");
         }
         return str.toString();
     }

@@ -34,21 +34,25 @@ public class PhoneBookServlet extends HttpServlet {
         out.println("<title>PhoneBook</title>");
         out.println("</head><body>");
         out.println("<a href=\"http://localhost:8880/AddName.html\">Add new</a>");
+        out.println("<br><a href=\"http://localhost:8880/Remove.html\">Remove</a>");
 
         if (uri.equals("/servlet/PhoneBook/add")) {
             String name = request.getParameter("name");
-                book.add(name, request.getParameter("phone"));
+            book.add(name, request.getParameter("phone"));
         }
-
-       /* else if(uri.equals("/servlet/PhoneBook/save")){
+        else if (uri.equals("/servlet/PhoneBook/save")) {
             //сохранить в файл - не сохраняет
             out.println("<p>" + book.save() + "</p>");
-        }*/
+        }
+        else if (uri.equals("/servlet/PhoneBook/remove")){
+            book.remove(request.getParameter("name"));
+        }
 
         // out.println("uri: " + uri);
         //  out.println("<form method=\"GET\" action=\"/servlet/PhoneBook/save\"><input type=\"submit\" value=\"save\"></form>");
 
         out.println(book.getBook());
+        out.println("<form action=\"/servlet/PhoneBook/save\" method=\"get\"><input type=\"submit\" value=\"Save\"></form>");
         out.println("</body></html>");
     }
 
